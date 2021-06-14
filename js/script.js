@@ -30,6 +30,7 @@ function cadastrarCurso(e){
         descricao: descricaoCurso
     }
 
+    //salva os dados no navegador
     if(localStorage.getItem('listaCursos') === null){
         var cursos = []
         cursos.push(curso)
