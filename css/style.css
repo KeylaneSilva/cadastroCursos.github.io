@@ -8,7 +8,8 @@
 /*logo header*/
 
 img{
-    margin: 50px 50%;
+    margin: 50px 37%;
+    width: 400px;
 
 }
 
@@ -42,11 +43,11 @@ h1{
 
 /* alinhamento dos inputs e textarea */
 .form-group input#form_nome{
-    margin-left: 10%;
+    margin-left: 9.3%;
 }
 
 .form-group input#form_dataInicio{
-    margin-left: 5.8%;
+    margin-left: 5.9%;
 }
 
 .form-group input#form_dataFim{
@@ -54,11 +55,15 @@ h1{
 }
 
 .form-group input#form_duracao{
-    margin-left: 2.5%;
+    margin-left: 3.2%;
 }
 
 .form-group textarea#form_desc{
-    margin-left: 8%;
+    margin-left: 7.7%;
+}
+
+.form-group input,textarea{
+    padding: 10px;
 }
 
 button{
