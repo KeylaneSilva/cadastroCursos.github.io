@@ -10,17 +10,17 @@ function cadastrarCurso(e){
     //verificando campo vazios
     if(!nomeCurso || !dataIncioCurso || !dataFimCurso || !duracaoCurso || !descricaoCurso){
         alert("Preencha os campos")
-        return false
+        
     }
 
     //verificação da data
     if(dataFimCurso < dataIncioCurso){
         alert("Data não permitida")
-        return false
+        
     }
     
     //limpando campos
-    document.getElementById('formulario').reset()
+    /*document.getElementById('formulario').reset()*/
 
     var curso = {
         nome: nomeCurso,
@@ -42,4 +42,26 @@ function cadastrarCurso(e){
     }
 
     e.preventDefault()
+    mostrarCadastros()
+}
+
+
+function mostrarCadastros(){
+    var cursos = JSON.parse(localStorage.getItem('listaCursos'))
+    var listaResultados = document.getElementById('resultado')
+
+    listaResultados.innerHTML = '';
+
+    for(var i = 0; i < cursos.length; i++){
+        var nome = cursos[i].nome;
+        var inicio = cursos[i].dataInicio;
+        var fim = cursos[i].dataFinal;
+        var duracao = cursos[i].duracao;
+        var descricao = cursos[i].descricao;
+
+        listaResultados.innerHTML += '<tr><td>' + nome +
+                                    '</td><td>' + duracao + '</td><td>' + inicio +
+                                    '</td><td>' + fim +
+                                    '</td></tr>'
+    }
 }
