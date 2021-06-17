@@ -15,13 +15,13 @@ function cadastrarCurso(e) {
     var dataFinalF = ((dataFim.getDate() )) + "/" + (((dataFim.getMonth() < 10 ? "0" + (dataFim.getMonth() + 1) : dataFim.getMonth() + 1))) + "/" + dataFim.getFullYear()
 
 
-    /*--- apagar ---*/
+    /*--- condição data ---*/
     if (dataFimCurso < dataInicioCurso) {
         Alert.render("Data não permitida")
         e.preventDefault()
         return
     }
-
+    
     var curso = {
         nome: nomeCurso,
         dataInicio: dataInicioF,
@@ -30,18 +30,34 @@ function cadastrarCurso(e) {
         descricao: descricaoCurso
     }
 
+    /*--- verificando duplicidade ref-nome ---*/
+    try{
+        var cursos = JSON.parse(localStorage.getItem('listaCursos'))
+        for(var i = 0; i < cursos.length; i++){
+            if(nomeCurso == cursos[i].nome){
+                Alert.render("Ops! Já tem um curso cadastrado com esse nome!")
+                e.preventDefault()
+                return
+            }
+        }
+    }catch(e){
+        console.log("Erro: " + e)
+    }
+
     /*--- salvando no localStorange ---*/
     if (localStorage.getItem('listaCursos') === null) {
         var cursos = []
         cursos.push(curso)
         localStorage.setItem('listaCursos', JSON.stringify(cursos))
-    } else {
+        Alert.render('Curso cadastrado com sucesso')
+    }else {
         var cursos = JSON.parse(localStorage.getItem('listaCursos'))
         cursos.push(curso)
         localStorage.setItem('listaCursos', JSON.stringify(cursos))
+        Alert.render('Curso cadastrado com sucesso')
     }
 
-    Alert.render('Curso cadastrado com sucesso')
+    
     e.preventDefault()
     mostrarCadastros()
 
@@ -49,7 +65,7 @@ function cadastrarCurso(e) {
     document.getElementById('formulario').reset()
 }
 
-
+/*--- adiciona os cursos na tabela ---*/
 function mostrarCadastros() {
     var cursos = JSON.parse(localStorage.getItem('listaCursos'))
     var listaResultados = document.getElementById('resultado')
