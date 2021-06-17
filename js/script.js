@@ -2,27 +2,35 @@ document.getElementById('formulario').addEventListener('submit', cadastrarCurso)
 
 function cadastrarCurso(e) {
     nomeCurso = document.getElementById('form-nome').value
-    dataIncioCurso = document.getElementById('form-dataInicio').value
+    dataInicioCurso = document.getElementById('form-dataInicio').value
     dataFimCurso = document.getElementById('form-dataFim').value
     duracaoCurso = document.getElementById('form-duracao').value
     descricaoCurso = document.getElementById('form-desc').value
 
-    //verificação da data
-    if (dataFimCurso < dataIncioCurso) {
+    /*--- data formatada ---*/
+    var dataInicio = new Date(dataInicioCurso)
+    var dataInicioF = ((dataInicio.getDate() )) + "/" +(((dataInicio.getMonth() < 10 ? "0" + (dataInicio.getMonth() + 1) : dataInicio.getMonth() + 1))) + "/" + dataInicio.getFullYear()
+
+    var dataFim = new Date(dataFimCurso)
+    var dataFinalF = ((dataFim.getDate() )) + "/" + (((dataFim.getMonth() < 10 ? "0" + (dataFim.getMonth() + 1) : dataFim.getMonth() + 1))) + "/" + dataFim.getFullYear()
+
+
+    /*--- apagar ---*/
+    if (dataFimCurso < dataInicioCurso) {
         Alert.render("Data não permitida")
         e.preventDefault()
-        return 
+        return
     }
 
     var curso = {
         nome: nomeCurso,
-        dataInicio: dataIncioCurso,
-        dataFinal: dataFimCurso,
+        dataInicio: dataInicioF,
+        dataFinal: dataFinalF,
         duracao: duracaoCurso,
         descricao: descricaoCurso
     }
 
-    //salva os dados no navegador
+    /*--- salvando no localStorange ---*/
     if (localStorage.getItem('listaCursos') === null) {
         var cursos = []
         cursos.push(curso)
@@ -37,7 +45,7 @@ function cadastrarCurso(e) {
     e.preventDefault()
     mostrarCadastros()
 
-    //limpando campos
+    /*--- limpando os campos ---*/
     document.getElementById('formulario').reset()
 }
 
@@ -56,52 +64,50 @@ function mostrarCadastros() {
         var descricao = cursos[i].descricao;
 
         listaResultados.innerHTML += '<tr class="tbodyTr" ondblclick="apagar(\'' + nome + '\')"><td class="nomeCurso" >' + nome +
-                                        '</td><td>' + duracao + 
-                                        '</td><td>' + inicio +
-                                        '</td><td>' + fim +
-                                        '</td></tr>'
+            '</td><td>' + duracao +
+            '</td><td>' + inicio +
+            '</td><td>' + fim +
+            '</td></tr>'
     }
 }
 
-/* filtro */
-
+/*--- filtro ---*/
 var campoFiltro = document.querySelector('#pesquisa-cursos')
 
-campoFiltro.addEventListener('input', function(){
+campoFiltro.addEventListener('input', function () {
     var cursos = document.querySelectorAll(".tbodyTr")
 
-    if(this.value.length > 0){
-        
-        for(var i = 0; i < cursos.length; i++){
+    if (this.value.length > 0) {
+
+        for (var i = 0; i < cursos.length; i++) {
             var curso = cursos[i];
             var nomeCurso = curso.querySelector(".nomeCurso")
             var nome = nomeCurso.textContent
             var expressao = new RegExp(this.value, "i")
 
-            if(!expressao.test(nome)){
+            if (!expressao.test(nome)) {
                 curso.classList.add("invisivel")
-            }else{
+            } else {
                 curso.classList.remove("invisivel")
             }
         }
-    }else{
-        for(var i = 0; i < cursos.length; i++){
+    } else {
+        for (var i = 0; i < cursos.length; i++) {
             var curso = cursos[i]
             curso.classList.remove("invisivel")
         }
     }
 })
 
-/* apagar */
-    function apagar(nome){
-        var cursos = JSON.parse(localStorage.getItem('listaCursos'))
-        
-        for(var i = 0; i < cursos.length; i++){
-            if(cursos[i].nome == nome){
-                cursos.splice(i, 1);
-            }
-            localStorage.setItem('listaCursos', JSON.stringify(cursos))
-            mostrarCadastros()
+/*--- apagar ---*/
+function apagar(nome) {
+    var cursos = JSON.parse(localStorage.getItem('listaCursos'))
+
+    for (var i = 0; i < cursos.length; i++) {
+        if (cursos[i].nome == nome) {
+            cursos.splice(i, 1); //Alert.render(cursos[i].descricao)
         }
+        localStorage.setItem('listaCursos', JSON.stringify(cursos))
+        mostrarCadastros()
     }
-        
+}
