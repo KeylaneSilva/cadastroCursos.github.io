@@ -21,7 +21,7 @@ function cadastrarCurso(e) {
         e.preventDefault()
         return
     }
-    
+
     var curso = {
         nome: nomeCurso,
         dataInicio: dataInicioF,
