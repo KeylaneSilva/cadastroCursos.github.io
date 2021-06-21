@@ -94,7 +94,6 @@ campoFiltro.addEventListener('input', function () {
     var cursos = document.querySelectorAll(".tbodyTr")
 
     if (this.value.length > 0) {
-
         for (var i = 0; i < cursos.length; i++) {
             var curso = cursos[i];
             var nomeCurso = curso.querySelector(".nomeCurso")
